@@ -9,18 +9,25 @@
   let stopTime;
   let intervalId;
 
+  function availble(btn) {
+    btn.disabled = false;
+    btn.classList.add('availble');
+  };
+
+  function unavailble(btn) {
+    btn.disabled = true;
+    btn.classList.remove('availble');
+  };
+
   start.addEventListener('click', ()=>{
     if(stopTime === undefined || stopTime === 0 ){
       startTime = new Date().getTime();
     }else{
       startTime = stopTime;
     }
-    start.disabled = true;
-    start.classList.remove('availble');
-    stop.disabled = false;
-    stop.classList.add('availble');
-    reset.disabled = false;
-    reset.classList.add('availble');
+    unavailble(start);
+    unavailble(reset);
+    availble(stop);
     intervalId = setInterval(()=>{
       let time = new Date().getTime();
       let baseTime = time - startTime;
@@ -35,10 +42,9 @@
   stop.addEventListener('click',()=>{
     stopTime = startTime;
     clearInterval(intervalId);
-    start.disabled = false;
-    start.classList.add('availble');
-    stop.disabled = true;
-    stop.classList.remove('availble');
+    availble(start);
+    availble(reset);
+    unavailble(stop);
   });
 
   reset.addEventListener('click',()=>{
@@ -46,11 +52,8 @@
     startTime = 0;
     stopTime = 0;
     display.textContent = '00:00.000';
-    start.disabled = false;
-    start.classList.add('availble');
-    stop.disabled = true;
-    stop.classList.remove('availble');
-    reset.disabled = true;
-    reset.classList.remove('availble');
+    availble(start);
+    unavailble(stop);
+    unavailble(reset);
   });
 }
